@@ -6,9 +6,9 @@ import Button1 from '../components/Button';
 import Stack from '@mui/material/Stack';
 import GoogleIcon from '@mui/icons-material/Google';
 import { ToastContainer, toast } from 'react-toastify';
-import {  createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase/config';
-import { GoogleAuthProvider,signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 import { useState } from 'react';
 
@@ -22,7 +22,7 @@ const Signup = () => {
         username: "",
         email: "",
         password: "",
-        password2 : ""
+        password2: ""
     })
 
 
@@ -39,24 +39,24 @@ const Signup = () => {
     const submitHandler = async () => {
         try {
 
-            if(!form.username.trim()){
+            if (!form.username.trim()) {
                 return toast.warning("Please enter username")
             }
-    
-            if(!form.email.trim()){
+
+            if (!form.email.trim()) {
                 return toast.warning("Please enter email")
             }
-    
-        
-            if(!form.password.trim()){
+
+
+            if (!form.password.trim()) {
                 return toast.warning("Please enter password")
             }
-            if(form.password.length < 6){
+            if (form.password.length < 6) {
                 return toast.warning("Password length should be greater than 5")
             }
-           
-    
-            if(form.password != form.password2){
+
+
+            if (form.password != form.password2) {
                 return toast.warning("Password cannot match");
             }
 
@@ -64,35 +64,35 @@ const Signup = () => {
 
             console.log(response);
 
-            if(response.user){
+            if (response.user) {
                 toast.success("User created successfully")
 
             }
 
-    
-            
+
+
         } catch (error) {
 
             toast.error(error)
 
-            
+
         }
     }
 
-    const googleRegister = async ()=>{
+    const googleRegister = async () => {
         try {
-            const response = await  signInWithPopup(auth, provider)
-            if(response.user){
+            const response = await signInWithPopup(auth, provider)
+            if (response.user) {
                 toast.success("User created successfully")
             }
 
             console.log(response);
-            
+
         } catch (error) {
-            console.log("error",error);
-            
+            console.log("error", error);
+
         }
-        
+
     }
 
     return (
