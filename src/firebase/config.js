@@ -5,6 +5,7 @@ import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+
   authDomain: "blog-app-1f957.firebaseapp.com",
   projectId: "blog-app-1f957",
   storageBucket: "blog-app-1f957.firebasestorage.app",
@@ -16,3 +17,4 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
+

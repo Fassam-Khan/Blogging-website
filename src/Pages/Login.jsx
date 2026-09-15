@@ -11,9 +11,10 @@ import { auth } from '../firebase/config';
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
+    const navigate = useNavigate()
 
     const provider = new GoogleAuthProvider();
 
@@ -22,7 +23,7 @@ const Login = () => {
     const [form, setForm] = useState({
         email: "",
         password: "",
-       
+
     })
 
 
@@ -39,7 +40,7 @@ const Login = () => {
     const submitHandler = async () => {
         try {
 
-        
+
             if (!form.email.trim()) {
                 return toast.warning("Please enter email")
             }
@@ -51,14 +52,12 @@ const Login = () => {
 
             const response = await signInWithEmailAndPassword(auth, form.email, form.password)
 
-            console.log(response);
-
-            if (response.user) {
+            if(response.user){
                 toast.success("Logged in sucessfully")
+                navigate("/")
+
 
             }
-
-
 
         } catch (error) {
 

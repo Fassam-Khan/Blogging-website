@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase/config';
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { Link } from 'react-router-dom';
 
 import { useState } from 'react';
 
@@ -131,7 +132,7 @@ const Signup = () => {
                     </Box>
 
                     <Box className="text-center mt-3">
-                        <h6 className='text-[12px]'>Already Have An Account? <span className='text-[12px] text-[#3739EC]'>Sign In.</span></h6>
+                        <h6 className='text-[12px]'>Already Have An Account? <Link to={'/login'}><span className='text-[12px] text-[#3739EC]'>Login.</span></Link></h6>
                     </Box>
 
 
