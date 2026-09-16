@@ -10,6 +10,9 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase/config';
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { Link } from 'react-router-dom';
+import { doc, setDoc } from "firebase/firestore";
+import { db } from '../firebase/config';
+
 
 import { useState } from 'react';
 
@@ -63,19 +66,42 @@ const Signup = () => {
 
             const response = await createUserWithEmailAndPassword(auth, form.email, form.password)
 
-            console.log(response);
-
             if (response.user) {
+                await createDB(response, form.username, form.email, form.password) 
                 toast.success("User created successfully")
 
+            }
+
+            if (!response.user) {
+                return toast.error("Something went wrong!")
             }
 
 
 
         } catch (error) {
 
-            toast.error(error)
+            toast.error(error.message)
 
+
+        }
+    }
+
+
+    const createDB = async (response, username, email, password) => {
+
+        try {
+            let user = await setDoc(doc(db, "user", response.user.uid), {
+                name: username,
+                email: email,
+                password: password
+            });
+
+            console.log(user);
+
+            console.log(response, username, email, password);
+
+        } catch (error) {
+            console.log(error.message);
 
         }
     }
