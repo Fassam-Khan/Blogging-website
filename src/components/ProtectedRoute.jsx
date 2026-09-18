@@ -28,6 +28,8 @@ const ProtectedRoute = () => {
     }
 
     useEffect(() => {
+
+        checkUser()
         return () => {
             checkUser()
         };
