@@ -54,9 +54,6 @@ const Login = () => {
 
             if(response.user){
                 toast.success("Logged in sucessfully")
-                navigate("/")
-
-
             }
 
         } catch (error) {

@@ -1,45 +1,35 @@
-import React from 'react'
-import { Navigate, Outlet, useNavigate } from 'react-router-dom'
-import { auth    } from '../firebase/config'
-import { onAuthStateChanged ,signOut } from 'firebase/auth'
-import { useEffect } from 'react'
-// import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase/config";
+import { Navigate } from "react-router-dom";
 
+const ProtectedRoute = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-const ProtectedRoute = () => {
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      console.log("Firebase user:", currentUser);
 
-    const navigate = useNavigate()
+      setUser(currentUser);
+      setLoading(false);
+    });
 
-    const checkUser = async ()=>{
-        try {
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                  const uid = user.uid;
-                } else {
-                    navigate("/login")
-                
-                }
-              });
-        } catch (error) {
+    return () => unsubscribe();
+  }, []);
 
-            console.log(error.message);
-            
-        }
-    }
+  // Firebase abhi user check kar raha hai
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
 
-    useEffect(() => {
+  // User logged in nahi hai
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
-        checkUser()
-        return () => {
-            checkUser()
-        };
-    }, [])
+  // User logged in hai
+  return children;
+};
 
-
-
-
-  return <Outlet/> 
-  
-}
-
-export default ProtectedRoute
+export default ProtectedRoute;

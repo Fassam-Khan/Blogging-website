@@ -67,7 +67,7 @@ const Signup = () => {
             const response = await createUserWithEmailAndPassword(auth, form.email, form.password)
 
             if (response.user) {
-                await createDB(response, form.username, form.email, form.password) 
+                await createDB(response, form.username, form.email, form.password)
                 toast.success("User created successfully")
 
             }
@@ -110,7 +110,19 @@ const Signup = () => {
         try {
             const response = await signInWithPopup(auth, provider)
             if (response.user) {
+
+                console.log(response.user);
+                let user = await setDoc(doc(db, "user", response.user.uid), {
+                    name: response.user.displayName,
+                    email: response.user.email,
+                });
+
+                console.log(user);
+
+                console.log(response.user.displayName);
+
                 toast.success("User created successfully")
+
             }
 
             console.log(response);
